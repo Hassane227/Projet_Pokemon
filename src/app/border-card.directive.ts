@@ -9,7 +9,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 export class BorderCardDirective {
   private initialColor: string = '#f5f5f5';
   private defaultColor = '#009688';
-   private defaultHeigth: number = 240;
+   private defaultHeigth: number = 180;
 
   // Le constructeur reçoit l'ElementRef qui donne un accès direct à l'élément DOM auquel la directive est appliquée
   constructor(private el: ElementRef ) { 
