@@ -31,4 +31,8 @@ export class DetailPokemonComponent  implements OnInit{
     this.router.navigate(['/pokemons'])
 
   }
+
+gotoEditPokemon(pokemon: Pokemon){
+  this.router.navigate(['edit/pokemon',pokemon.id])
+}
 }
