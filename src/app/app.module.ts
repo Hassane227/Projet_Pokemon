@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { FormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http'
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.service';
+
 
 @NgModule({
   declarations: [
@@ -16,8 +20,11 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
-    PokemonModule, // importer les modules dans il faut aussi importer les module par ordre de route
+    PokemonModule,
     AppRoutingModule,
+    HttpClientModule ,// Import du module HTTP    PokemonModule, // importer les modules dans il faut aussi importer les module par ordre de route
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false }) // Simule un petit délai
+    
     
   ],
   providers: [],
