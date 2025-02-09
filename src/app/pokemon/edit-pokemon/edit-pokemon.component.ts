@@ -26,7 +26,7 @@ export class EditPokemonComponent implements OnInit {
 ngOnInit(): void {
     const pokemonid: string|null = this.route.snapshot.paramMap.get('id');
     if(pokemonid){
-      this.pokemon = this.pokemonService.getPokemonByid(+pokemonid);
+      this.pokemonService.getPokemonByid(+pokemonid).subscribe(pokemon=> this.pokemon=pokemon);
     }else {
       this.pokemon= undefined;
     }

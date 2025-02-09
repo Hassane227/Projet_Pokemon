@@ -7,7 +7,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PokemonModule } from './pokemon/pokemon.module';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http'
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { HttpClientInMemoryWebApiModule, InMemoryDbService } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 
 
@@ -20,12 +20,10 @@ import { InMemoryDataService } from './in-memory-data.service';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false }),
     PokemonModule,
     AppRoutingModule,
-    HttpClientModule ,// Import du module HTTP    PokemonModule, // importer les modules dans il faut aussi importer les module par ordre de route
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false }) // Simule un petit délai
-    
-    
   ],
   providers: [],
   bootstrap: [AppComponent]

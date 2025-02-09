@@ -1,32 +1,60 @@
 import { Injectable } from '@angular/core';
 import { Pokemon } from './pokemon';
-import { POKEMONS } from './mock-pokemon';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, tap, of } from 'rxjs';
 
 @Injectable()
 export class PokemonService {
-  pokemonList: Pokemon[] =POKEMONS;
-  pokemon : Pokemon|undefined ;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getPokemonList (): Pokemon[]{
-      return POKEMONS;
+  // Récupérer la liste des Pokémon
+  getPokemonList(): Observable<Pokemon[]> {
+    return this.http.get<Pokemon[]>('api/pokemons').pipe(
+      tap((reponse) => this.log(reponse)), // Log des Pokémon
+      catchError((error) => this.handleError(error, [])) // En cas d'erreur, retourne un tableau vide
+    );
+  }
+//mis ajours 
+  updatePokemon(pokemon: Pokemon):Observable<Pokemon|null>{
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.put('api/pokemons',pokemon, httpOptions).pipe(
+      tap((reponse)=> this.log(reponse)),
+      catchError((error)=>this.handleError(error,null))
+    )
+  }
+  // Récupérer un Pokémon par ID
+  getPokemonByid(id: number): Observable<Pokemon | undefined> {
+    return this.http.get<Pokemon>(`api/pokemons/${id}`).pipe(
+      tap((pokemon) => this.log(pokemon)), // Log du Pokémon
+      catchError((error) => this.handleError(error, undefined)) // En cas d'erreur, retourne undefined
+    );
   }
 
-  getPokemonByid(id: number):Pokemon|undefined{
-      return this.pokemonList.find(pokemon=>pokemon.id == id);;
-
-
+  // Log des réponses de l'API
+  private log(response: any): void {
+    console.table(response);
   }
 
-  getPokemonTypeList(): string[]{
-   
-    const typesSet = new Set<string>();
+  // Gestion des erreurs d'API
+  private handleError(error: any, errorValue: any): Observable<any> {
+    console.error(error); // Affiche l'erreur dans la console
+    return of(errorValue); // Retourne un Observable contenant la valeur par défaut (tableau vide ou undefined)
+  }
 
-    this.pokemonList.forEach(pokemon => {
-        pokemon.types.forEach(type => typesSet.add(type));
-    });
-
-    return Array.from(typesSet);
+  // Liste des types de Pokémon
+  getPokemonTypeList(): string[] {
+    return [
+      "Plante", "Poison", 
+      "Feu", 
+      "Eau", 
+      "Insecte", 
+      "Normal", 
+      "Vol", 
+      "Electrik", 
+      "Fée"
+    ];
   }
 }
