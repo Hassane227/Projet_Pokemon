@@ -15,6 +15,18 @@ export class PokemonService {
       catchError((error) => this.handleError(error, [])) // En cas d'erreur, retourne un tableau vide
     );
   }
+  //ajout d'un pokemon
+  addPokemon(pokemon: Pokemon): Observable<Pokemon>{
+
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.post<Pokemon>('api/pokemons',pokemon,httpOptions).pipe(
+      tap((reponse)=> this.log(reponse)),
+      catchError((error)=>this.handleError(error,null))
+      
+    );
+  }
 //mis ajours 
   updatePokemon(pokemon: Pokemon):Observable<Pokemon|null>{
     const httpOptions= {
@@ -24,6 +36,14 @@ export class PokemonService {
       tap((reponse)=> this.log(reponse)),
       catchError((error)=>this.handleError(error,null))
     )
+  }
+  // supprimer un pokemon
+  deletePokemonById(pokemonid: number): Observable<null>{
+    return this.http.delete(`api/pokemons/${pokemonid}`).pipe(
+      tap((reponse)=> this.log(reponse)),
+      catchError((error)=>this.handleError(error,null))
+    )
+
   }
   // Récupérer un Pokémon par ID
   getPokemonByid(id: number): Observable<Pokemon | undefined> {

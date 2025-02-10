@@ -13,11 +13,13 @@ import { Router } from '@angular/router';
 export class PokemonFormComponent  implements OnInit{
   @Input() pokemon: Pokemon;// donc  notre composant peut prendre un pokemon en paramettre
   types: string[];
+  isAddform: boolean;
 
   constructor(private router: Router,private pokemonService: PokemonService){};
   ngOnInit() {
     // pokemnTypeListe
     this.types = this.pokemonService.getPokemonTypeList();
+    this.isAddform = this.router.url.includes('add')
       
   }
   //la fonction hastype permet de renvoyer un boolean si le pokemon a ce type ou pas
@@ -38,8 +40,15 @@ export class PokemonFormComponent  implements OnInit{
         }
   }
   onSubmit(){
-    this.pokemonService.updatePokemon(this.pokemon).subscribe(()=>this.router.navigate(['/pokemon',this.pokemon.id]) );
+    if(this.isAddform){
+      this.pokemonService.addPokemon(this.pokemon).subscribe(
+        (pokemon: Pokemon)=> this.router.navigate(['/pokemon',pokemon.id])
+      );
 
+     }
+     else{
+    this.pokemonService.updatePokemon(this.pokemon).subscribe(()=>this.router.navigate(['/pokemon',this.pokemon.id]) );
+        }
     //this.router.navigate(['/pokemon',this.pokemon.id]);
 
   }

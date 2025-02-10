@@ -7,7 +7,6 @@ import { PokemonService } from '../pokemon.service';
 @Component({
   selector: 'app-list-pokemon',
   standalone: false,
-  
   templateUrl: './list-pokemon.component.html',
   styles: ``
 })
