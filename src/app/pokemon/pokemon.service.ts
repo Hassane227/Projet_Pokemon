@@ -27,6 +27,17 @@ export class PokemonService {
       
     );
   }
+  // recherche d'un pokemon
+  searchPokemonList(term: String): Observable<Pokemon[]>{
+    if(term.length<=1){
+      return of([]);
+    }
+    return this.http.get<Pokemon[]>(`api/pokemons/?name=${term}`).pipe(
+      tap((reponse)=> this.log(reponse)),
+      catchError((error)=>this.handleError(error,[]))
+       
+    )
+  }
 //mis ajours 
   updatePokemon(pokemon: Pokemon):Observable<Pokemon|null>{
     const httpOptions= {
