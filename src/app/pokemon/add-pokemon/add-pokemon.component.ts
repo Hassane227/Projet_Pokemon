@@ -14,8 +14,7 @@ import { Pokemon } from '../pokemon';
 export class AddPokemonComponent implements OnInit{
 pokemon: Pokemon;
   ngOnInit(){
-    this.pokemon =  new Pokemon();
-      
+    this.pokemon =  new Pokemon();   
   }
 
 
